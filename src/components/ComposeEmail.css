@@ -1,0 +1,12 @@
+.text-line {
+    background-color: transparent;
+    color: black;
+    outline: black;
+    outline-style: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: solid #131212 1px;
+    padding: 3px 10px;
+    width: 100%;
+}

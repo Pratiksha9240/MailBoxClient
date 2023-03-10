@@ -6,6 +6,7 @@ import Login from './pages/Login';
 import MyNavbar from './components/MyNavbar';
 import './App.css';
 import ForgotPassword from './pages/ForgotPassword';
+import ComposeEmail from './components/ComposeEmail';
 
 function App() {
 
@@ -29,6 +30,10 @@ function App() {
 
       <Route path='/forgot-password'>
         <ForgotPassword />
+      </Route>
+
+      <Route path='/compose-email'>
+        <ComposeEmail />
       </Route>
       
     </div>

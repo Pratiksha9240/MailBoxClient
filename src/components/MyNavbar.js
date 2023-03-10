@@ -33,10 +33,10 @@ const MyNavbar = () => {
             >
               MyProfile
             </NavLink>
-            <NavLink className="nav-link" to="/myEmail"
+            <NavLink className="nav-link" to="/compose-email"
             //   style={{ color: `${mode === "light" ? "black" : "white"}` }}
             >
-              My Emails
+              Compose Email
             </NavLink>
           </Nav>
           
