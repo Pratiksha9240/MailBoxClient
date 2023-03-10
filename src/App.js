@@ -1,7 +1,10 @@
+import { useSelector } from 'react-redux';
+import { Route } from 'react-router-dom';
 import SignUp from './pages/SignUp';
 import Notification from './components/Notifications';
+import Login from './pages/Login';
+import MyNavbar from './components/MyNavbar';
 import './App.css';
-import { useSelector } from 'react-redux';
 
 function App() {
 
@@ -10,7 +13,19 @@ function App() {
   return (
     <div>
       {showNotification && <Notification />}
-      <SignUp />
+
+      <Route path='/navbar'>
+        <MyNavbar />
+      </Route>
+
+      <Route exact path='/'>
+        <SignUp />
+      </Route>
+
+      <Route path='/login'>
+        <Login />
+      </Route>
+      
     </div>
   );
 }
