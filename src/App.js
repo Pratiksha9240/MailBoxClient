@@ -5,6 +5,7 @@ import Notification from './components/Notifications';
 import Login from './pages/Login';
 import MyNavbar from './components/MyNavbar';
 import './App.css';
+import ForgotPassword from './pages/ForgotPassword';
 
 function App() {
 
@@ -24,6 +25,10 @@ function App() {
 
       <Route path='/login'>
         <Login />
+      </Route>
+
+      <Route path='/forgot-password'>
+        <ForgotPassword />
       </Route>
       
     </div>
