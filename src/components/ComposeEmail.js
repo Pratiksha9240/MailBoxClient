@@ -35,6 +35,14 @@ const ComposeEmail = () => {
         subject: enteredSubject
     }))
 
+    if(enteredEmail === fromEmail){
+      dispatch(emailActions.inboxEmails({
+        body: enteredBody,
+        fromEmail: fromEmail,
+        subject: enteredSubject
+      }))
+    }
+
     emailjs
     .send(
       "default_service",

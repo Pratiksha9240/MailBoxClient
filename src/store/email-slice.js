@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialEmailState = {sentItems: []};
+const initialEmailState = {sentItems: [], receivedItems: []};
 
 const emailSlice = createSlice({
     name: 'emailStore',
@@ -15,6 +15,9 @@ const emailSlice = createSlice({
         },
         replaceEmail(state,action){
             state.sentItems = action.payload.sentItems;
+        },
+        inboxEmails(state,action){
+            state.receivedItems = action.payload.receivedItems
         }
     }
 })

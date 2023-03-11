@@ -5,11 +5,12 @@ import Notification from './components/Notifications';
 import Login from './pages/Login';
 import MyNavbar from './components/MyNavbar';
 import SentEmails from './components/Email/SentEmails';
+import InboxEmails from './components/Email/InboxEmails';
 import './App.css';
 import ForgotPassword from './pages/ForgotPassword';
 import ComposeEmail from './components/ComposeEmail';
 import { useEffect } from 'react';
-import { getSentEmails, storeEmail } from './store/email-actions';
+import { getInboxEmails, getSentEmails, storeEmail } from './store/email-actions';
 
 let isInitial = true;
 
@@ -28,6 +29,11 @@ function App() {
   useEffect(() => {
     dispatch(getSentEmails(emailId))
   
+},[emailId,dispatch])
+
+useEffect(() => {
+  dispatch(getInboxEmails(emailId))
+
 },[emailId,dispatch])
 
   useEffect(() => {
@@ -62,6 +68,10 @@ function App() {
 
       <Route path='/sent-email'>
         <SentEmails />
+      </Route>
+
+      <Route path='/inbox-email'>
+        <InboxEmails />
       </Route>
       
     </div>
