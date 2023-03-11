@@ -9,7 +9,6 @@ const SignUp = () => {
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
   const confirmpasswordInputRef = useRef();
-
   const dispatch = useDispatch();
 
   const submitHandler = async (event) => {
@@ -53,6 +52,10 @@ const SignUp = () => {
         status: 'ok',
         message: 'SignedUp succefully'
       }));
+
+      setTimeout(() => {
+        dispatch(uiActions.setIsLoading());
+      },2000)
 
     } catch (error) {
         console.log(error.message)

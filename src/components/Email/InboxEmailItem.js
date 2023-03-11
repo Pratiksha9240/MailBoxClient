@@ -1,31 +1,30 @@
 import "./InboxEmailItem.css";
 import { Button } from "react-bootstrap";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { uiActions } from "../../store/ui-slice";
 
 const InboxEmailItem = (props) => {
 
-    const isRead = useSelector(state => state.ui.isRead);
+    // const isRead = useSelector(state => state.ui.isRead);
 
     const [show,setShow] = useState(false);
 
-    const dispatch = useDispatch();
+    const [isRead,setIsRead] = useState(false);
 
     const openEmailHandler = () => {
         setShow(!show)
-        dispatch(uiActions.setRead(true))
+        setIsRead(true);
     }
 
   return (
     <>
       <tr style={{backgroundColor: `${isRead === false ? 'lightblue' : 'white'}`}}>
-      <td>{props.toEmail}</td>
+      <td>{props.fromEmail}</td>
         <td>{props.subject}</td>
         <td><Button variant="success" onClick={openEmailHandler}>Open Email</Button></td>
+        <td><Button variant="danger" onClick={openEmailHandler}>Delete Email</Button></td>
       </tr>
 
-      {show && <h2>{props.body}</h2>}
+      {show && <tr><td>{props.body}</td></tr>}
     </>
   );
 };

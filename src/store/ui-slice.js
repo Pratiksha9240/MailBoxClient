@@ -1,6 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit'
 
-const initialUiState = {isShowNotification: false, message: '', status: '',isRead:false};
+const initialUiState = {isShowNotification: false, message: '', status: '',isLoading: false};
 
 const uiSlice = createSlice({
     name: 'ui',
@@ -11,8 +11,8 @@ const uiSlice = createSlice({
             state.message = action.payload.message;
             state.status = action.payload.status;
         },
-        setRead(state){
-            state.isRead = true;
+        setIsLoading(state){
+            state.isShowNotification = false
         }
     }
 })

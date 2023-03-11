@@ -8,14 +8,14 @@ const InboxEmails = () => {
   return (
     <table>
       <tr>
-        <th>To</th>
+        <th>From</th>
         <th>Subject</th>
       </tr>
       {emails.map((email) => (
         <InboxEmailItem
           subject={email.subject}
           body={email.body}
-          toEmail={email.toEmail}
+          fromEmail={email.toEmail}
         />
       ))}
     </table>

@@ -6,6 +6,7 @@ import { Button } from "react-bootstrap";
 import "./ComposeEmail.css";
 import { useDispatch } from "react-redux";
 import { emailActions } from "../store/email-slice";
+import { uiActions } from "../store/ui-slice";
 import emailjs from '@emailjs/browser';
 
 const ComposeEmail = () => {
@@ -32,16 +33,27 @@ const ComposeEmail = () => {
     dispatch(emailActions.sendEmail({
         body: enteredBody,
         toEmail: enteredEmail,
-        subject: enteredSubject
+        subject: enteredSubject,
+        fromEmail: fromEmail
     }))
-
     if(enteredEmail === fromEmail){
-      dispatch(emailActions.inboxEmails({
+      dispatch(emailActions.sendInboxEmail({
         body: enteredBody,
         fromEmail: fromEmail,
-        subject: enteredSubject
+        subject: enteredSubject,
+        toEmail: enteredEmail
       }))
     }
+      
+
+    dispatch(uiActions.showNotification({
+      status: 'ok',
+      message: 'Email Sent Successfully!!!'
+    }));
+
+    setTimeout(() => {
+      dispatch(uiActions.setIsLoading());
+    },2000)
 
     emailjs
     .send(

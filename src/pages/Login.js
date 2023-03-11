@@ -47,11 +47,19 @@ const Login = () => {
         message: 'LoggedIn succefully'
       }));
 
+      setTimeout(() => {
+        dispatch(uiActions.setIsLoading());
+      },2000)
+
     } catch (error) {
         dispatch(uiActions.showNotification({
             status: 'error',
             message: 'Wrong Password!!!'
           }));
+
+          setTimeout(() => {
+            dispatch(uiActions.setIsLoading());
+          },2000)
     }
 
     emailInputRef.current.value = '';
