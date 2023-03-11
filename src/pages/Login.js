@@ -3,14 +3,12 @@ import {useDispatch} from 'react-redux';
 import { Button, Container, Form } from "react-bootstrap";
 import classes from "./Login.module.css";
 import { uiActions } from "../store/ui-slice";
-import { useHistory,Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { authActions } from "../store/auth-slice";
 
 const Login = () => {
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
-
-  const history = useHistory();
 
   const dispatch = useDispatch();
 
@@ -48,8 +46,6 @@ const Login = () => {
         status: 'ok',
         message: 'LoggedIn succefully'
       }));
-
-      history.replace('/navbar')
 
     } catch (error) {
         dispatch(uiActions.showNotification({
