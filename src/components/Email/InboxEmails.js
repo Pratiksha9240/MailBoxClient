@@ -1,21 +1,25 @@
 import { useSelector } from "react-redux";
-
- 
+import InboxEmailItem from "./InboxEmailItem";
+import "./InboxEmailItem.css";
 
 const InboxEmails = () => {
+  const emails = useSelector((state) => state.emailStore.receivedItems);
 
-    const emails = useSelector(state => state.emailStore.receivedItems);
-
-    return(
-        <ul>
-            {emails.map(email => (
-                <li>
-                    <h4>{email.subject}</h4>
-                    <h5>{email.body}</h5>
-                </li>
-            ))}
-        </ul>
-    )
-}
+  return (
+    <table>
+      <tr>
+        <th>To</th>
+        <th>Subject</th>
+      </tr>
+      {emails.map((email) => (
+        <InboxEmailItem
+          subject={email.subject}
+          body={email.body}
+          toEmail={email.toEmail}
+        />
+      ))}
+    </table>
+  );
+};
 
 export default InboxEmails;
