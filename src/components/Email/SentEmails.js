@@ -18,6 +18,7 @@ const SentEmails = () => {
           subject={email.subject}
           body={email.body}
           toEmail={email.toEmail}
+          isRead= {email.isRead}
         />
       ))}
     </table>

@@ -49,8 +49,8 @@ useEffect(() => {
       isInitial = false
       return
     }
-    dispatch(storeInboxEmail(emailData,emailId))
-  },[emailData,emailId,dispatch])
+    dispatch(storeInboxEmail(emailData))
+  },[emailData,dispatch])
 
   return (
     <div>

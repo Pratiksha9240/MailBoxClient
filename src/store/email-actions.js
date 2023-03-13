@@ -1,167 +1,176 @@
 import { emailActions } from "./email-slice";
 import { uiActions } from "./ui-slice";
 
-export const storeEmail = (emailData,emailId) => {
-    let email;
-    if(emailId){
-        email = emailId.replace(/[|&;$%@"<>.()+,]/g, "");
-    }
+export const storeEmail = (emailData, emailId) => {
+  let email;
+  if (emailId) {
+    email = emailId.replace(/[|&;$%@"<>.()+,]/g, "");
+  }
+  return async (dispatch) => {
+    const storeData = async () => {
+      const response = await fetch(
+        `https://mailboxclient-c9aed-default-rtdb.firebaseio.com/${email}/emails.json`,
+        {
+          method: "PUT",
+          body: JSON.stringify(emailData),
+        }
+      );
+
+      if (!response.ok) {
+        return () => {
+          dispatch(
+            uiActions.showNotification({
+              status: "error",
+              message: "Something went wrong!!!",
+            })
+          );
+
+          setTimeout(() => {
+            dispatch(uiActions.setIsLoading());
+          }, 2000);
+        };
+      }
+    };
+
+    try {
+      await storeData();
+    } catch (error) {}
+  };
+};
+
+export const storeInboxEmail = (emailData) => {
+  if (emailData) {
+    // emailData.allMails.map((e) => email1.push(e.toEmail));
+
     return async (dispatch) => {
-        const storeData = async() => {
-            const response = await fetch(`https://mailboxclient-c9aed-default-rtdb.firebaseio.com/${email}/emails.json`,{
-                method: 'PUT',
-                body: JSON.stringify(emailData)
-            });
-    
-            if(!response.ok){
-                return () => {dispatch(uiActions.showNotification({
-                    status: 'error',
-                    message: 'Something went wrong!!!'
-                  }));
+      const storeData = async () => {
+        const response = await fetch(
+          `https://mailboxclient-c9aed-default-rtdb.firebaseio.com/emails.json`,
+          {
+            method: "PUT",
+            body: JSON.stringify(emailData),
+          }
+        );
+        if (!response.ok) {
+          return () => {
+            dispatch(
+              uiActions.showNotification({
+                status: "error",
+                message: "Something went wrong!!!",
+              })
+            );
 
-                  setTimeout(() => {
-                    dispatch(uiActions.setIsLoading());
-                  },2000)}
-            }
+            setTimeout(() => {
+              dispatch(uiActions.setIsLoading());
+            }, 2000);
+          };
         }
+      };
 
-        try{
-            await storeData();
-        }
-        catch(error){
-    
-        }
-    }
-}
-
-
-export const storeInboxEmail = (emailData,emailId) => {
-
-    let email1 = [];
-    let emailData1 = [];
-
-
-    if(emailData){
-        emailData.sentItems.map(e => (
-            email1.push(e.toEmail)
-        ))
-
-
-        return async (dispatch) => {
-            const storeData = async(e2,emailData1) => {
-                const response = await fetch(`https://mailboxclient-c9aed-default-rtdb.firebaseio.com/${e2}/emails/receivedItems.json`,{
-                    method: 'PUT',
-                    body: JSON.stringify(emailData1)
-                });
-        
-                if(!response.ok){
-                    return () => {dispatch(uiActions.showNotification({
-                        status: 'error',
-                        message: 'Something went wrong!!!'
-                      }));
-    
-                      setTimeout(() => {
-                        dispatch(uiActions.setIsLoading());
-                      },2000)}
-                }
-            }
-    
-            try{
-                for(const e1 in email1){
-                    const e2 = email1[e1].replace(/[|&;$%@"<>.()+,]/g, "")
-                    emailData1 = emailData.receivedItems.filter(t => t.toEmail === email1[e1])
-                    // emailData1 = [emailData1,emailData.sentItems.filter(t => t.toEmail === email1[e1])]
-                    dispatch(emailActions.inboxEmails({
-                        receivedItems: emailData.receivedItems || []
-                    }))
-                    console.log(emailData1)
-                    await storeData(e2,emailData1);
-                }
-            }
-            catch(error){
-        
-            }
-        }
-    }
-    
-}
-
-
+      try {
+        await storeData();
+      } catch (error) {}
+    };
+  }
+};
 
 export const getSentEmails = (emailId) => {
-    let email;
-    if(emailId){
-        email = emailId.replace(/[|&;$%@"<>.()+,]/g, "");
-    }
-    return async (dispatch) => {
-        const getEmails = async () => {
-            const response = await fetch(`https://mailboxclient-c9aed-default-rtdb.firebaseio.com/${email}/emails.json`);
-    
-            if(!response.ok){
-                return () => {dispatch(uiActions.showNotification({
-                    status: 'error',
-                    message: 'Something went wrong!!!'
-                  }));
+  let email;
+  if (emailId) {
+    email = emailId.replace(/[|&;$%@"<>.()+,]/g, "");
+  }
+  return async (dispatch) => {
+    const getEmails = async () => {
+      const response = await fetch(
+        `https://mailboxclient-c9aed-default-rtdb.firebaseio.com/${email}/emails.json`
+      );
 
-                  setTimeout(() => {
-                    dispatch(uiActions.setIsLoading());
-                  },2000)}
-            }
+      if (!response.ok) {
+        return () => {
+          dispatch(
+            uiActions.showNotification({
+              status: "error",
+              message: "Something went wrong!!!",
+            })
+          );
 
-            const data = await response.json();
+          setTimeout(() => {
+            dispatch(uiActions.setIsLoading());
+          }, 2000);
+        };
+      }
 
-            return data;
-        }
+      const data = await response.json();
 
-        try{
-            const emailData = await getEmails();
+      return data;
+    };
 
-            dispatch(emailActions.replaceEmail({
-                sentItems: emailData.sentItems || []
-            }))
+    try {
+      const emailData = await getEmails();
+      console.log('SentItems',emailData)
 
-        }
-        catch(error){
-
-        }
-    }
-}
+      dispatch(
+        emailActions.replaceEmail({
+          sentItems: emailData.sentItems || [],
+          unReadCount: emailData.unReadCount,
+        })
+      );
+    } catch (error) {}
+  };
+};
 
 export const getInboxEmails = (emailId) => {
-    let email;
-    if(emailId){
-        email = emailId.replace(/[|&;$%@"<>.()+,]/g, "");
-    }
-    return async (dispatch) => {
-        const getEmails = async () => {
-            const response = await fetch(`https://mailboxclient-c9aed-default-rtdb.firebaseio.com/${email}/emails.json`);
-    
-            if(!response.ok){
-                return () => {dispatch(uiActions.showNotification({
-                    status: 'error',
-                    message: 'Something went wrong!!!'
-                  }));
 
-                  setTimeout(() => {
-                    dispatch(uiActions.setIsLoading());
-                  },2000)}
-            }
+  let email;
+  if (emailId) {
+    email = emailId.replace(/[|&;$%@"<>.()+,]/g, "");
+  }
+  return async (dispatch) => {
+    const getEmails = async () => {
+      const response = await fetch(
+        `https://mailboxclient-c9aed-default-rtdb.firebaseio.com/emails.json`
+      );
 
-            const data = await response.json();
+      if (!response.ok) {
+        return () => {
+          dispatch(
+            uiActions.showNotification({
+              status: "error",
+              message: "Something went wrong!!!",
+            })
+          );
 
-            return data;
-        }
+          setTimeout(() => {
+            dispatch(uiActions.setIsLoading());
+          }, 2000);
+        };
+      }
 
-        try{
-            const emailData = await getEmails();
+      const data = await response.json();
 
-            dispatch(emailActions.inboxEmails({
-                receivedItems: emailData.receivedItems || []
-            }))
+      return data;
+    };
 
-        }
-        catch(error){
+    try {
+      const emailData = await getEmails();
+      console.log('All mails',emailData.allMails);
+      
 
-        }
-    }
-}
+        const emailData1 = emailData.allMails.filter((t) => t.toEmail === emailId);
+        const count = emailData.allMails.filter(t => t.isRead === false && t.toEmail === emailId).length;
+        console.log(count)
+        console.log("emailData 1", emailData1);
+
+       
+        dispatch(emailActions.inboxEmails({
+          receivedItems: emailData1 || [],
+        }))
+
+        dispatch(emailActions.replaceAllEmail({
+          allMails: emailData.allMails,
+          unReadCount: count
+        }))
+      // }
+    } catch (error) {}
+  };
+};

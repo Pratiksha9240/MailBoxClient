@@ -10,13 +10,10 @@ const SentEmailItems = (props) => {
 
     const [show,setShow] = useState(false);
 
-    const [isRead,setIsRead] = useState(false);
-
     const dispatch = useDispatch();
 
     const openEmailHandler = () => {
         setShow(!show)
-        setIsRead(true);
     }
 
 
@@ -26,7 +23,7 @@ const SentEmailItems = (props) => {
 
   return (
     <>
-      <tr style={{backgroundColor: `${isRead === false ? 'lightblue' : 'white'}`}}>
+      <tr>
       <td>{toEmail}</td>
         <td>{subject}</td>
         <td><Button variant="success" onClick={openEmailHandler}>Open Email</Button></td>

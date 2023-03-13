@@ -34,17 +34,9 @@ const ComposeEmail = () => {
         body: enteredBody,
         toEmail: enteredEmail,
         subject: enteredSubject,
-        fromEmail: fromEmail
-    }))
-    if(enteredEmail === fromEmail){
-      dispatch(emailActions.sendInboxEmail({
-        body: enteredBody,
         fromEmail: fromEmail,
-        subject: enteredSubject,
-        toEmail: enteredEmail
-      }))
-    }
-      
+        isRead: false
+    }))      
 
     dispatch(uiActions.showNotification({
       status: 'ok',
